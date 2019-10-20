@@ -1,0 +1,22 @@
+/* @import '~antd/dist/antd.css'; */
+
+.main-form{
+    width: 600px !important;
+    margin:auto;
+    background-color: #efefef;
+    padding: 30px;
+    border-radius:10px;
+    margin-top: 30px;
+}
+
+.ant-calendar-picker {
+    width: 100%;
+}
+.register-title {
+    text-align:center;
+}
+.formWrapper {
+    width:85%;
+    margin: auto;
+    padding: 10px;
+}
