@@ -1,38 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Table, Input, Button, Icon } from 'antd';
 import '../form/form.css';
 
-class MyTable extends React.Component {
-  constructor(props) {
-    super();
-    this.state = {
-      searchText: '',
-    };
-  }
+const MyTable = (props) => {
+  const [searchText, setSearchText] = useState("")
 
-  getColumnSearchProps = dataIndex => ({
+  let searchInput;
+  const getColumnSearchProps = dataIndex => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
       <div style={{ padding: 8 }}>
         <Input
           ref={node => {
-            this.searchInput = node;
+            searchInput = node;
           }}
           placeholder={`Search ${dataIndex}`}
           value={selectedKeys[0]}
           onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
-          onPressEnter={() => this.handleSearch(selectedKeys, confirm)}
+          onPressEnter={() => handleSearch(selectedKeys, confirm)}
           style={{ width: 188, marginBottom: 8, display: 'block' }}
         />
         <Button
           type="primary"
-          onClick={() => this.handleSearch(selectedKeys, confirm)}
+          onClick={() => handleSearch(selectedKeys, confirm)}
           icon="search"
           size="small"
           style={{ width: 90, marginRight: 8 }}
         >
           Search
         </Button>
-        <Button onClick={() => this.handleReset(clearFilters)} size="small" style={{ width: 90 }}>
+        <Button onClick={() => handleReset(clearFilters)} size="small" style={{ width: 90 }}>
           Reset
         </Button>
       </div>
@@ -47,59 +43,57 @@ class MyTable extends React.Component {
         .includes(value.toLowerCase()),
     onFilterDropdownVisibleChange: visible => {
       if (visible) {
-        setTimeout(() => this.searchInput.select());
+        setTimeout(() => searchInput.select());
       }
     },
   });
 
-  handleSearch = (selectedKeys, confirm) => {
+  const handleSearch = (selectedKeys, confirm) => {
     confirm();
-    this.setState({ searchText: selectedKeys[0] });
+    setSearchText(selectedKeys[0])
   };
 
-  handleReset = clearFilters => {
+  const handleReset = clearFilters => {
     clearFilters();
-    this.setState({ searchText: '' });
+    setSearchText("")
   };
 
-  render() {
     const columns = [
       {
         title: 'First Name',
         dataIndex: 'first_name',
         key: 'first_name',
-        ...this.getColumnSearchProps('first_name'),
+        ...getColumnSearchProps('first_name'),
       },
       {
         title: 'Last Name',
         dataIndex: 'last_name',
         key: 'last_name',
-        ...this.getColumnSearchProps('last_name'),
+        ...getColumnSearchProps('last_name'),
       },
       {
         title: 'BirthDay',
         dataIndex: 'birth_day',
         key: 'birth_day',
-        ...this.getColumnSearchProps('birth_day'),
+        ...getColumnSearchProps('birth_day'),
       },
       {
         title: 'Age',
         dataIndex: 'age',
         key: 'age',
-        ...this.getColumnSearchProps('age'),
+        ...getColumnSearchProps('age'),
       },
       {
         title: 'Hobby',
         dataIndex: 'hobby',
         key: 'hobby',
-        ...this.getColumnSearchProps('hobby'),
+        ...getColumnSearchProps('hobby'),
       },
     ];
     return <div className="main-form">
     <h2 className="register-title">Users Table</h2>
-    <Table columns={columns} dataSource={this.props.data} />
+    <Table columns={columns} dataSource={props.data} />
     </div>;
   }
-}
 
 export default MyTable;

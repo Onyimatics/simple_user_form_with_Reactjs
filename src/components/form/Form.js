@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './form.css';
 import MyTable from '../table/Table';
 import {
@@ -7,38 +7,30 @@ import {
     Button,
   } from 'antd';
   
-  class RegistrationForm extends React.Component {
-    constructor(props) {
-      super(props);
-    this.state = {
-     formData: []
-    };
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+  const RegistrationForm = (props) => {
+    const [formData, setFormData] = useState([])
   
-    handleSubmit = e => {
+    const handleSubmit = e => {
       e.preventDefault();
-      let payload;
-      this.props.form.validateFieldsAndScroll((err, values) => {
+    let payload;
+      props.form.validateFieldsAndScroll((err, values) => {
         if (!err) {
-          console.log('date>>>>', values.birth_day)
-          if(this.state.formData.length !== 0){
-            values.key = parseInt(this.state.formData.length) + 1;
-            payload = [ ...this.state.formData, values ]
+          if(formData.length !== 0){
+            values.key = parseInt(formData.length) + 1;
+            payload = [ ...formData, values ]
           } else {
             values.key = 1;
-            payload = [ ...this.state.formData, values ]
+            payload = [ ...formData, values ]
           }
-          this.setState({
-            formData: payload
-          })
+          setFormData(payload);
         }
       });
     };
 
+
   
-    render() {
-      const { getFieldDecorator } = this.props.form;
+  
+      const { getFieldDecorator } = props.form;
   
       const formItemLayout = {
         labelCol: {
@@ -64,10 +56,11 @@ import {
       };
   
       return (
+
         <div className="formWrapper">
           <div  className="main-form">
             <h1 className="register-title">User Registration</h1>
-            <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+            <Form {...formItemLayout} onSubmit={handleSubmit}>
               <Form.Item label="First Name">
                 {getFieldDecorator('first_name', {
                   rules: [
@@ -152,11 +145,11 @@ import {
               </Form.Item>
             </Form>
           </div>
-          <MyTable data={this.state.formData} />
+          <MyTable data={formData} />
         </div>
       );
     }
-  }
+
 
   const FillForm = Form.create({ name: 'register' })(RegistrationForm);
 
