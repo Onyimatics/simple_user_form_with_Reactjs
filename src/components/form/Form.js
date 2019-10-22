@@ -6,26 +6,26 @@ import {
     Input,
     Button,
   } from 'antd';
-  import { connect } from 'react-redux';
+  import { useSelector, useDispatch } from 'react-redux';
   import { submitAction } from '../../store/modules/users/actions';
   const RegistrationForm = (props) => {
-    // const [formData, setFormData] = useState([])
+    const { formData } = useSelector(state => ({
+      ...state.userReducer
+    }));
+    const dispatch = useDispatch();
     let payload;
     const handleSubmit = e => {
       e.preventDefault();
-      // const formData = props.formData;
       props.form.validateFieldsAndScroll((err, values) => {
         if (!err) {
-          if(props.formData.length !== 0){
-            values.key = parseInt(props.formData.length) + 1;
-            payload = [ ...props.formData, values ]
+          if(formData.length !== 0){
+            values.key = parseInt(formData.length) + 1;
+            payload = [ ...formData, values ]
           } else {
             values.key = 1;
-            payload = [ ...props.formData, values ]
+            payload = [ ...formData, values ]
           }
-          props.submitAction(payload);
-          
-          // setFormData(payload);
+          dispatch(submitAction(payload));
         }
       });
     };
@@ -148,7 +148,7 @@ import {
               </Form.Item>
             </Form>
           </div>
-          <MyTable data={props.formData} />
+          <MyTable data={formData} />
         </div>
       );
     }
@@ -156,15 +156,5 @@ import {
 
   const FillForm = Form.create({ name: 'register' })(RegistrationForm);
 
-  const mapStateToProps = state => ({
-    formData: state.userReducer.formData
-  })
 
-  const mapDispatchToProps = {
-    submitAction
-  }
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(FillForm);
+export default FillForm;

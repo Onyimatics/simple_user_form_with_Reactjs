@@ -9,6 +9,6 @@ import { SUBMIT_USER_SUCCESS } from '../actionTypes';
   }
 });
 
-export const submitAction = (formData) =>  dispatch => {
-    dispatch(submitUserSuccess(formData));
+export const submitAction = (formData) => {
+    return submitUserSuccess(formData);
  }
