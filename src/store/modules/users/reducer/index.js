@@ -22,7 +22,7 @@ const userReducer = (state = initialState, { type, payload }) => {
             return {
               ...state,
               ...payload,
-              formData: [...payload.formData, ...state.formData]
+              formData: [payload.formData, ...state.formData]
             };
       default:
         return state;

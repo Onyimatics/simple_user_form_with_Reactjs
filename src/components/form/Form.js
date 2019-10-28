@@ -17,16 +17,15 @@ import {
     const handleSubmit = e => {
       e.preventDefault();
       props.form.validateFieldsAndScroll((err, values) => {
-        if (!err) {
-          console.log('>>>>>>', payload);
-          
+        if (!err) {          
           if(formData.length !== 0){
             values.key = parseInt(formData.length) + 1;
-            payload = [ ...formData, values ]
+            payload = values 
           } else {
             values.key = 1;
-            payload = [ ...formData, values ]
+            payload = values
           }
+          console.log('>>>>>>', payload);
           dispatch(submitAction(payload));
         }
       });

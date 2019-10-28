@@ -59,12 +59,12 @@ const MyTable = (props) => {
   };
 
     const columns = [
-      {
-        title: 'User Id',
-        dataIndex: 'user_id',
-        key: 'user_id',
-        ...getColumnSearchProps('user_id'),
-      },
+      // {
+      //   title: 'User Id',
+      //   dataIndex: 'id',
+      //   key: 'id',
+      //   ...getColumnSearchProps('id'),
+      // },
       {
         title: 'First Name',
         dataIndex: 'first_name',
