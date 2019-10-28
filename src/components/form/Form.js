@@ -18,6 +18,8 @@ import {
       e.preventDefault();
       props.form.validateFieldsAndScroll((err, values) => {
         if (!err) {
+          console.log('>>>>>>', payload);
+          
           if(formData.length !== 0){
             values.key = parseInt(formData.length) + 1;
             payload = [ ...formData, values ]

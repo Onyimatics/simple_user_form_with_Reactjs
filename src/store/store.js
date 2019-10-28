@@ -2,7 +2,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 // import { createLogger } from 'redux-logger';
 import rootReducer from './modules';
-import { watchUserForm } from '../middleware/userSaga';
+import rootSaga from '../middleware/userSaga';
 
 const sagaMiddleware = createSagaMiddleware();
 // const loggerMiddleware = createLogger();
@@ -23,6 +23,6 @@ const store = createStore(
   middlewares
 );
 
-sagaMiddleware.run(watchUserForm);
+sagaMiddleware.run(rootSaga);
 
 export default store;
