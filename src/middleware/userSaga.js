@@ -15,27 +15,6 @@ import {
 } from '../store/modules/users/actions';
 import firebase from './config';
 
-// function* fetchAllUsersAsync() {
-//     const channel = new eventChannel(emiter => {
-//         const listener = firebase
-//             .database()
-//             .ref('/users')
-//             .on('value', snapshot => {
-//                 emiter({ users: snapshot.val() || {} });
-//             });
-
-//         return () => {
-//             listener.off();
-//         };
-//     });
-
-//     while (true) {
-//         const { formData } = yield take(channel);
-//         Object.keys(formData).map(user => formData[user]);
-//         console.log(formData);
-//         yield put(fetchUserSuccess(formData));
-//     }
-// }
 
 function* startListener() {
     // #1
@@ -76,7 +55,7 @@ function* userFormAsync(action) {
         });
 
         yield put({
-            type: 'SUCCESS',
+            type: 'SUBMIT_SUCCESS_ASYNC',
             payload: {
                 formData: action.payload.formData,
                 error: null,
