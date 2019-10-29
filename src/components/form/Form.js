@@ -13,20 +13,11 @@ import {
       ...state.userReducer
     }));
     const dispatch = useDispatch();
-    let payload;
     const handleSubmit = e => {
       e.preventDefault();
       props.form.validateFieldsAndScroll((err, values) => {
         if (!err) {          
-          if(formData.length !== 0){
-            values.key = parseInt(formData.length) + 1;
-            payload = values 
-          } else {
-            values.key = 1;
-            payload = values
-          }
-          console.log('>>>>>>', payload);
-          dispatch(submitAction(payload));
+          dispatch(submitAction(values));
         }
       });
     };

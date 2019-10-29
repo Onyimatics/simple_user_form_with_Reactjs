@@ -5,43 +5,48 @@ import {
 import qs from 'qs';
 import {
     takeLatest,
+    takeEvery,
     put,
     all,
     take,
     fork
 } from 'redux-saga/effects';
-import {
-    submitAction
-} from '../store/modules/users/actions';
+// import {
+//     submitAction
+// } from '../store/modules/users/actions';
 import firebase from './config';
-
 
 function* startListener() {
     // #1
     const channel = new eventChannel(emiter => {
-        const listener = firebase.database().ref("/users").on("value", snapshot => {
-            emiter({
-                users: snapshot.val() || {}
-            });
-        });
-
-        // #2
-        return () => {
-            listener.off();
-        };
+      const listener = firebase.database().ref("/users").on("value", snapshot => {
+          console.log('code>>>>', snapshot.val())
+        emiter({ data: snapshot.val() || {} });
+      });
+  
+          // #2
+      return () => {
+        listener.off();
+      };
     });
-
-    // #3
+  
+      // #3
     while (true) {
-        const {
-            data
-        } = yield take(channel);
-        // #4
-        yield put(submitAction(data));
+      const { data } = yield take(channel);
+      const datum = Object.values(data)
+   
+      // #4
+      yield put({
+        type: 'SUBMIT_SUCCESS_ASYNC',
+        payload: {
+            formData: datum,
+            error: null,
+            status: 'submit_success'
+        }
+    });
     }
-}
-
-
+  }
+  
 
 function* userFormAsync(action) {
     try {
@@ -68,17 +73,27 @@ function* userFormAsync(action) {
 }
 
 function* watchStartListener() {
-    yield fork(startListener);
+    try {
+        yield fork(startListener);
+    } catch(error) {
+        console.log(error.message);
+        
+    }
 }
 
 function* watchUserForm() {
+    try {
     yield takeLatest('SUBMIT_USER_SUCCESS', userFormAsync)
+    } catch(error) {
+        console.log(error.message);
+        
+    }
 }
 
 
 export default function* rootSaga() {
     yield all([
-        watchUserForm(),
         watchStartListener(),
+        watchUserForm(),
     ])
 }

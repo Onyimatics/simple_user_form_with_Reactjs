@@ -1,7 +1,4 @@
-import { SUBMIT_USER_SUCCESS } from '../actionTypes';
-import { SUBMIT_USER_FAILURE } from '../actionTypes';
-import { FETCH_USER_SUCCESS } from '../actionTypes';
-import { FETCH_USER_FAILURE } from '../actionTypes';
+import { SUBMIT_SUCCESS_ASYNC } from '../actionTypes';
 
 const initialState = {
     formData: [],
@@ -9,20 +6,14 @@ const initialState = {
     status: 'rest'
   };
 
+  
 const userReducer = (state = initialState, { type, payload }) => {
     switch (type) {
-      case SUBMIT_USER_FAILURE :
-      case FETCH_USER_SUCCESS :
-      case FETCH_USER_FAILURE :
-        return {
-          ...state,
-          ...payload
-        };
-        case SUBMIT_USER_SUCCESS:
+        case SUBMIT_SUCCESS_ASYNC:
             return {
               ...state,
               ...payload,
-              formData: [payload.formData, ...state.formData]
+              formData: [...payload.formData, ...state.formData]
             };
       default:
         return state;
