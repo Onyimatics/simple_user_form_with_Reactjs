@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './form.css';
 import MyTable from '../table/Table';
 import {
@@ -6,13 +6,16 @@ import {
     Input,
     Button,
   } from 'antd';
-  
+  import { useSelector, useDispatch } from 'react-redux';
+  import { submitAction } from '../../store/modules/users/actions';
   const RegistrationForm = (props) => {
-    const [formData, setFormData] = useState([])
-  
+    const { formData } = useSelector(state => ({
+      ...state.userReducer
+    }));
+    const dispatch = useDispatch();
+    let payload;
     const handleSubmit = e => {
       e.preventDefault();
-    let payload;
       props.form.validateFieldsAndScroll((err, values) => {
         if (!err) {
           if(formData.length !== 0){
@@ -22,7 +25,7 @@ import {
             values.key = 1;
             payload = [ ...formData, values ]
           }
-          setFormData(payload);
+          dispatch(submitAction(payload));
         }
       });
     };
@@ -152,5 +155,6 @@ import {
 
 
   const FillForm = Form.create({ name: 'register' })(RegistrationForm);
+
 
 export default FillForm;
