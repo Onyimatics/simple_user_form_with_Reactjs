@@ -1,6 +1,8 @@
-import { SUBMIT_USER_SUCCESS } from '../actionTypes';
+import { 
+  SUBMIT_USER_SUCCESS,
+ } from '../actionTypes';
 
- export const submitUserSuccess = formData => ({
+ export const submitAction = formData => ({
   type: SUBMIT_USER_SUCCESS,
   payload: {
     status: 'submitSuccess',
@@ -8,7 +10,3 @@ import { SUBMIT_USER_SUCCESS } from '../actionTypes';
     formData
   }
 });
-
-export const submitAction = (formData) => {
-    return submitUserSuccess(formData);
- }

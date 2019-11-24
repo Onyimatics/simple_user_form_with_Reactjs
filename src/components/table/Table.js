@@ -60,6 +60,13 @@ const MyTable = (props) => {
 
     const columns = [
       {
+        title: 'User Id',
+        dataIndex: 'id',
+        key: 'id',
+        // render: id => id !== undefined ? id.slice(24,) : " ",
+        ...getColumnSearchProps('id'),
+      },
+      {
         title: 'First Name',
         dataIndex: 'first_name',
         key: 'first_name',
